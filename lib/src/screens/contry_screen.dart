@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ..add(
             CountryGraphQL(
               query,
-              variables: {'ID': 'AS'},
+              variables: {'ID': 'EU'},
             ),
           ),
         child: BlocBuilder<GraphqlBloc, GraphqlState>(
@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text(
-                      _repositories[index]['name'].toString(),
+                      _repositories[index]['capital'].toString(),
                     ),
                   );
                 },
@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
+
     );
   }
 }

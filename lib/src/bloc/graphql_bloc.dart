@@ -6,6 +6,7 @@ import 'package:flutter_graphql/src/helper/graphql_helper.dart';
 import 'package:meta/meta.dart';
 
 part 'graphql_event.dart';
+
 part 'graphql_state.dart';
 
 class GraphqlBloc extends Bloc<GraphqlEvent, GraphqlState> {
