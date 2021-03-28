@@ -13,11 +13,12 @@ class CountryGraphQLEvent extends GraphqlEvent {
   List<Object> get props => [query, variables];
 }
 
+// ignore: must_be_immutable
 class ItemsGraphqlEventRefresh extends GraphqlEvent {
-  final String query;
+  String query;
   final Map<String, dynamic> variables;
 
-  ItemsGraphqlEventRefresh(this.query, {this.variables}) : super();
+  ItemsGraphqlEventRefresh( {this.variables}) : super();
 
   @override
   List<Object> get props => [query, variables];

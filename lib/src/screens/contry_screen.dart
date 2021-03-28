@@ -10,12 +10,49 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String selectedItem;
+  String selectedItem="SOUTH AMERICA";
+  String selectedItem3;
 
-  void initState() {
-    super.initState();
-    selectedItem = 'SA';
+  final List<String> countryItemList = <String>[
+    "ASIA",
+    "NORTH AMERICA",
+    "OCEANIA",
+    "AFRIKA",
+    "EUROPE",
+    "SOUTH AMERICA"
+  ];
+
+  String itemSelected(String selectvalue) {
+    switch (selectvalue) {
+      case 'ASIA':
+        selectedItem3 = 'AS';
+        break;
+      case 'NORTH AMERICA':
+        selectedItem3 = 'NA';
+        break;
+      case 'OCEANIA':
+        selectedItem3 = 'OC';
+        break;
+      case 'AFRIKA':
+        selectedItem3 = 'AF';
+        break;
+      case 'EUROPE':
+        selectedItem3 = 'EU';
+        break;
+      case 'SOUTH AMERICA':
+        selectedItem3 = 'SA';
+        break;
+      default:
+        {
+          print("Invalid choice");
+        }
+        break;
+    }
+
+    return selectedItem3;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ..add(
             CountryGraphQLEvent(
               query,
-              variables: {'ID': selectedItem},
+              variables: {'ID': "SA"},
             ),
           ),
         child: BlocBuilder<GraphqlBloc, GraphqlState>(
@@ -60,12 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 2,
                         color: Colors.deepPurpleAccent,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String _newValue) {
                         setState(() {
-                          selectedItem = newValue;
+                          itemSelected(_newValue);
+                          selectedItem=_newValue;
                         });
                       },
-                      items: <String>['AS', 'NA', 'OC', 'AF', 'EU', 'SA']
+                      items: countryItemList
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -82,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       final itemsBloc = BlocProvider.of<GraphqlBloc>(context)
                         ..add(CountryGraphQLEvent(
                           query,
-                          variables: {'ID': selectedItem},
+                          variables: {'ID': selectedItem3},
                         ));
 
                       return itemsBloc
