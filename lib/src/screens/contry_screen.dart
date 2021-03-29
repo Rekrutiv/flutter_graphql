@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String selectedItem="SOUTH AMERICA";
+  String selectedItem = "SOUTH AMERICA";
   String selectedItem3;
 
   final List<String> countryItemList = <String>[
@@ -51,8 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return selectedItem3;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onChanged: (String _newValue) {
                         setState(() {
                           itemSelected(_newValue);
-                          selectedItem=_newValue;
+                          selectedItem = _newValue;
                         });
                       },
                       items: countryItemList
@@ -130,15 +129,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemCount: _repositories.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
-                          leading: Text(
+                          leading: AutoSizeText(
                             _repositories[index]['emoji'].toString(),
+                            style: TextStyle(fontSize: 40),
+                            minFontSize: 10,
+                            stepGranularity: 10,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          title: Text(
+                          title: AutoSizeText(
                             _repositories[index]['name'].toString(),
+                            style: TextStyle(fontSize: 30),
+                            minFontSize: 10,
+                            stepGranularity: 10,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                           ),
-                          subtitle: Text(
+                          subtitle: AutoSizeText(
                               _repositories[index]['capital'].toString(),
+                              style: TextStyle(fontSize: 30),
+                              minFontSize: 10,
+                              stepGranularity: 10,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center),
                         );
                       },
@@ -149,7 +163,13 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             if (state is LoadDataFail) {
               return Center(
-                child: const Text('something went wrong'),
+                child: const AutoSizeText('something went wrong',
+                    style: TextStyle(fontSize: 40),
+                    minFontSize: 10,
+                    stepGranularity: 10,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center),
               );
             }
             return const SizedBox();

@@ -13,12 +13,10 @@ const String query = r'''
 String get countriesQuery {
     return '''
     query Countries {
-      countries {
+       countries {
         emoji
         name
-        continent {
-          name
-        }
+        capital
         phone
         currency
         languages {
