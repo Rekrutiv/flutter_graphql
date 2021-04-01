@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_graphql/src/bloc/graphql_bloc.dart';
+import 'package:flutter_graphql/src/presentation/widget/text_widget.dart';
 import 'package:flutter_graphql/src/query/country_query.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -84,32 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(10.0),
                         color: Colors.cyan,
                         border: Border.all()),
-                    child: DropdownButton<String>(
-                      value: selectedItem,
-                      isExpanded: true,
-                      dropdownColor: Colors.blueGrey,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String _newValue) {
-                        setState(() {
-                          itemSelected(_newValue);
-                          selectedItem = _newValue;
-                        });
-                      },
-                      items: countryItemList
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
+                    child: buildDropdownButton(),
                   ),
                   Expanded(
                       child: RefreshIndicator(
@@ -125,38 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return itemsBloc
                           .firstWhere((e) => e is! CountryGraphQLEvent);
                     },
-                    child: ListView.builder(
-                      itemCount: _repositories.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: AutoSizeText(
-                            _repositories[index]['emoji'].toString(),
-                            style: TextStyle(fontSize: 40),
-                            minFontSize: 10,
-                            stepGranularity: 10,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          title: AutoSizeText(
-                            _repositories[index]['name'].toString(),
-                            style: TextStyle(fontSize: 30),
-                            minFontSize: 10,
-                            stepGranularity: 10,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                          ),
-                          subtitle: AutoSizeText(
-                              _repositories[index]['capital'].toString(),
-                              style: TextStyle(fontSize: 30),
-                              minFontSize: 10,
-                              stepGranularity: 10,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center),
-                        );
-                      },
-                    ),
+                    child: buildListView(_repositories),
                   )),
                 ],
               );
@@ -176,6 +121,56 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
+    );
+  }
+
+  ListView buildListView(List _repositories) {
+    return ListView.builder(
+      itemCount: _repositories.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          leading: AutoTextWidget(
+              autoText: _repositories[index]['emoji'].toString(),
+              textFontSize: 40,
+              textStep: 10),
+          title: AutoTextWidget(
+              autoText: _repositories[index]['name'].toString(),
+              textFontSize: 30,
+              textStep: 5),
+          subtitle: AutoTextWidget(
+              autoText: _repositories[index]['capital'].toString(),
+              textFontSize: 30,
+              textStep: 5),
+        );
+      },
+    );
+  }
+
+  DropdownButton<String> buildDropdownButton() {
+    return DropdownButton<String>(
+      value: selectedItem,
+      isExpanded: true,
+      dropdownColor: Colors.blueGrey,
+      icon: const Icon(Icons.arrow_drop_down),
+      iconSize: 24,
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String _newValue) {
+        setState(() {
+          itemSelected(_newValue);
+          selectedItem = _newValue;
+        });
+      },
+      items: countryItemList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
